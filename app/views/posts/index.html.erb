@@ -7,7 +7,7 @@
     </div>
     <div class="content__right">
       <div class="content__right__top">
-        <%= post.title %>
+        <%= link_to post.title, "/posts/#{post.id}", class:"content__right__top--title" %>
       </div>
       <div class="content__right__bottom">
         <div class="content__right__bottom--date">
