@@ -1,7 +1,8 @@
 class PostsController < ApplicationController
 
   def index
-    @posts = Post.all
+    # @posts = Post.all (N+1問題)
+    @posts = Post.includes(:user)
   end
 
   def new
@@ -39,7 +40,11 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :content)
+    params.require(:post).permit(:title, :content).merge(user_id: current_user.id)
   end
+
+  # createとupdateアクションの時に、user_idも一緒に保存したい。
+  # 複数の投稿(posts)がある為、ユーザー(user)とアソシエーションを組んでいる。そのためにDBに保存するストロングパラメーター内で
+  # idを取得したいので上記のような記述で、current_user.idをハッシュで書く。(mergeメソッド)
 
 end
